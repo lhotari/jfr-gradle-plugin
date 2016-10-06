@@ -9,7 +9,7 @@ Gradle plugin for creating JFR logs for each build. JFR has shipped with Oracle 
 Add plugin to build script
 ```
 plugins {
-  id "io.github.lhotari.jfr" version "0.1"
+  id "io.github.lhotari.jfr" version "0.2"
 }
 ```
 
@@ -26,7 +26,7 @@ initscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.io.github.lhotari.jfr:jfr-gradle-plugin:0.1"
+        classpath "gradle.plugin.io.github.lhotari.jfr:jfr-gradle-plugin:0.2"
     }
 }
 apply plugin: io.github.lhotari.jfr.JfrProfilingPlugin

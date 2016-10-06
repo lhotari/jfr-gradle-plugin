@@ -5,7 +5,7 @@ initscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.io.github.lhotari.jfr:jfr-gradle-plugin:0.1"
+        classpath "gradle.plugin.io.github.lhotari.jfr:jfr-gradle-plugin:0.2"
     }
 }
 apply plugin: io.github.lhotari.jfr.JfrProfilingPlugin
