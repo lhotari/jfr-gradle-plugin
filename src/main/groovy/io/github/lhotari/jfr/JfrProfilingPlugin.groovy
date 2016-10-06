@@ -39,6 +39,10 @@ class JfrProfilingPlugin implements Plugin<Object> {
     }
 
     void applyToProject(Project project) {
+        if (project != project.rootProject) {
+            project.logger.warn("Applying this plugin is only supported for the root project.")
+            return
+        }
         def dumpInfo = new JfrDumpInfo(project.rootDir, project.gradle.startParameter)
         if(!dumpInfo.isProfiling()) {
             startProfiling(dumpInfo)
