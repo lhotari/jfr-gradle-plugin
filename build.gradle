@@ -1,0 +1,34 @@
+plugins {
+    id "com.gradle.plugin-publish" version "0.9.5"
+    id "groovy"
+    id "idea"
+}
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+version = "0.1"
+group = "io.github.lhotari.jfr"
+
+pluginBundle {
+    website = 'https://github.com/lhotari/jfr-gradle-plugin'
+    vcsUrl = 'https://github.com/lhotari/jfr-gradle-plugin'
+    description = '''Plugin for creating JFR logs for each build.'''
+    tags = ['performance', 'profiler']
+
+    plugins {
+        jfrPlugin {
+            id = 'io.github.lhotari.jfr'
+            displayName = 'JFR profiler plugin'
+        }
+    }
+}
