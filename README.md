@@ -51,6 +51,12 @@ One way to do this is to add the options to `org.gradle.jvmargs` key in `gradle.
 org.gradle.jvmargs=-Xmx2500m -Xverify:none -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints
 ```
 
+### Java Mission Control UI for analysing the JFR logs
+
+```
+jmc -open [jfr log file.jfr]
+```
+
 ### Flamegraphs
 
 With the help of [jfr-report-tool](https://github.com/lhotari/jfr-report-tool), you can make CPU [Flamegraphs](http://www.brendangregg.com/flamegraphs.html).
