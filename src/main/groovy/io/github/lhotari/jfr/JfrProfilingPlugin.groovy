@@ -12,7 +12,7 @@ import static io.github.lhotari.jfr.JfrControl.*
 
 @CompileStatic
 class JfrProfilingPlugin implements Plugin<Object> {
-    static final String JFR_JVM_OPTS = '-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024'
+    static final String JFR_JVM_OPTS = '-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints'
     JfrProfilingPlugin() {
 
     }
@@ -20,7 +20,7 @@ class JfrProfilingPlugin implements Plugin<Object> {
     @Override
     void apply(Object target) {
         if (!jfrEnabled()) {
-            System.err.println("JFR isn't available.")
+            System.err.println("JFR is only available on Oracle JVM 1.7.0_40+.")
             System.err.println("Add ${JFR_JVM_OPTS} to the JVM options (org.gradle.jvmargs) of gradle.")
             return
         }
