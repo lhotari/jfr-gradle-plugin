@@ -1,6 +1,7 @@
 package io.github.lhotari.jfr
 
 import groovy.transform.CompileStatic
+import org.gradle.StartParameter
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.initialization.Settings
@@ -38,7 +39,7 @@ class JfrProfilingPlugin implements Plugin<Object> {
     }
 
     void applyToProject(Project project) {
-        def dumpInfo = new JfrDumpInfo(project.rootDir)
+        def dumpInfo = new JfrDumpInfo(project.rootDir, project.gradle.startParameter)
         if(!dumpInfo.isProfiling()) {
             startProfiling(dumpInfo)
             project.gradle.addListener(createBuildCompletionListener(dumpInfo))
@@ -70,7 +71,7 @@ class JfrProfilingPlugin implements Plugin<Object> {
     }
 
     private void startProfilingAndAddListener(File rootDir, Gradle gradle) {
-        def dumpInfo = new JfrDumpInfo(rootDir)
+        def dumpInfo = new JfrDumpInfo(rootDir, gradle.startParameter)
         startProfiling(dumpInfo)
         gradle.addListener(createBuildCompletionListener(dumpInfo))
     }
@@ -113,15 +114,20 @@ class JfrProfilingPlugin implements Plugin<Object> {
         File rootDir
         String recordingName
         File dumpLockFile
+        StartParameter startParameter
 
-        JfrDumpInfo(File rootDir) {
+        JfrDumpInfo(File rootDir, StartParameter startParameter) {
             this.rootDir = rootDir
+            this.startParameter = startParameter
             recordingName = "${rootDir.name}-GradleProfiling"
             dumpLockFile = new File(rootDir, "${recordingName}.jfr.lock")
         }
 
         File createRecordingFile() {
-            new File(rootDir, "${recordingName}-${new java.text.SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())}.jfr").absoluteFile
+            String prefix = "${recordingName}-${new java.text.SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())}"
+            new File(rootDir, "${prefix}.info.txt").text = startParameter?.toString()
+            new File(rootDir, "${prefix}.info.json").text = new groovy.json.JsonBuilder(startParameter).toPrettyString()
+            new File(rootDir, "${prefix}.jfr").absoluteFile
         }
 
         boolean isProfiling() {
@@ -129,7 +135,7 @@ class JfrProfilingPlugin implements Plugin<Object> {
         }
 
         void markProfiling() {
-            dumpLockFile.text = 'profiling'
+            dumpLockFile.text = 'profiling ' + startParameter
         }
 
         void clearStatus() {
