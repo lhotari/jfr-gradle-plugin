@@ -41,3 +41,12 @@ if(System.getenv('GRADLE_PROFILING_ENABLED')) {
     apply plugin: io.github.lhotari.jfr.JfrProfilingPlugin
 }
 ```
+
+### Enabling JFR for the Gradle JVM
+
+These JVM options are needed for JFR: `-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints`
+
+One way to do this is to add the options to `org.gradle.jvmargs` key in `gradle.properties`:
+```
+org.gradle.jvmargs=-Xmx2500m -Xverify:none -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints
+```
