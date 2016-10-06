@@ -16,7 +16,7 @@ dependencies {
     compile localGroovy()
 }
 
-version = "0.2-SNAPSHOT"
+version = "0.2"
 group = "io.github.lhotari.jfr"
 
 pluginBundle {
