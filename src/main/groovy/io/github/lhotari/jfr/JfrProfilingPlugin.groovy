@@ -95,6 +95,7 @@ class JfrProfilingPlugin implements Plugin<Object> {
             } else {
                 // copy profiling settings from classpath to temp file
                 File settingsTempFile = File.createTempFile("profiling", ".jfc")
+                settingsTempFile.deleteOnExit()
                 settingsTempFile.withOutputStream { outputStream ->
                     getClass().getResourceAsStream("profiling.jfc").withStream { inputStream ->
                         outputStream << inputStream
