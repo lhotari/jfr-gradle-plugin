@@ -1,6 +1,6 @@
 # jfr-gradle-plugin
 
-Gradle plugin for creating JFR logs for each build.
+Gradle plugin for creating JFR logs for each build. JFR has shipped with Oracle Java since 1.7.0_40 .
 
 ## Usage
 
@@ -50,3 +50,7 @@ One way to do this is to add the options to `org.gradle.jvmargs` key in `gradle.
 ```
 org.gradle.jvmargs=-Xmx2500m -Xverify:none -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints
 ```
+
+### Flamegraphs
+
+With the help of [jfr-report-tool](https://github.com/lhotari/jfr-report-tool), you can make CPU [Flamegraphs](http://www.brendangregg.com/flamegraphs.html).
