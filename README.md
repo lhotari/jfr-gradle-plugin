@@ -44,7 +44,22 @@ if(System.getenv('GRADLE_PROFILING_ENABLED')) {
 
 ### Enabling JFR for the Gradle JVM
 
-These JVM options are needed for JFR: `-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints`
+These JVM options are needed for JFR: `-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints`.
+
+These options [are recommended in the JFR manual](https://docs.oracle.com/javacomponents/jmc-5-5/jfr-runtime-guide/about.htm#JFRRT111).
+
+> Note that when running alternative languages relying on lambda forms on the JVM -- such as the JavaScript implementation Nashorn -- the depths of the stack traces can get quite deep. To ensure that stack traces with large stacks are sampled properly, you may need to increase the Flight Recorder stack depth. Setting its value to 1024 will usually be enough:
+
+> `java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=stackdepth=1024 MyApp`
+
+---
+
+> One nice property of the JFR method profiler is that it does not require threads to be at safe points in order for stacks to be sampled. However, since the common case is that stacks will only be walked at safe points, HotSpot normally does not provide metadata for non-safe point parts of the code, which means that such samples will not be properly resolved to the correct line number and BCI. That is, unless you specify:
+
+> `-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints`
+
+> With DebugNonSafepoints, the compiler will generate the necessary metadata for the parts of the code not at safe points as well.
+
 
 One way to do this is to add the options to `org.gradle.jvmargs` key in `gradle.properties`:
 ```
